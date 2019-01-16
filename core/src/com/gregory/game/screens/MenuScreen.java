@@ -15,6 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.gregory.game.MainApplication;
 
+import static com.gregory.game.Utils.Screens.ABOUT;
+import static com.gregory.game.Utils.Screens.APPLICATION;
+
 public class MenuScreen implements Screen {
 
 
@@ -24,13 +27,13 @@ public class MenuScreen implements Screen {
     public MenuScreen(MainApplication mainApplication){
 
         parent = mainApplication;
-        /// create stage and set it as input processor
-        stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(stage);
+
     }
 
     @Override
     public void show() {
+        stage = new Stage(new ScreenViewport());
+        Gdx.input.setInputProcessor(stage);
         // Create a table that fills the screen. Everything else will go inside this table.
         Table table = new Table();
         table.setFillParent(true);
@@ -63,16 +66,16 @@ public class MenuScreen implements Screen {
         playButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.changeScreen(MainApplication.APPLICATION);
+                parent.changeScreen(APPLICATION);
             }
         });
 
-//        preferences.addListener(new ChangeListener() {
-//            @Override
-//            public void changed(ChangeEvent event, Actor actor) {
-//                parent.changeScreen(Box2DTutorial.PREFERENCES);
-//            }
-//        });
+        aboutButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                parent.changeScreen(ABOUT);
+            }
+        });
 
         exitButton.addListener(new ChangeListener() {
             @Override

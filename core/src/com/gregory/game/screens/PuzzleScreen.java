@@ -1,14 +1,19 @@
 package com.gregory.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.gregory.game.MainApplication;
 import com.gregory.game.Utils.Background;
 import com.gregory.game.Utils.CarState;
+import com.gregory.game.ui.MenuButton;
 import com.gregory.game.ui.MoveCounter;
 import com.gregory.game.ui.PuzzleArrow;
 import com.gregory.game.ui.RestartButton;
@@ -20,11 +25,14 @@ import com.gregory.game.objects.Truck;
 
 import java.util.ArrayList;
 
-public class PuzzleScreen extends ScreenAdapter {
+import static com.gregory.game.Utils.Screens.MENU;
+
+public class PuzzleScreen extends ScreenAdapter implements Screen {
     public static final int BLOCKSIZE = 170;
     public static final int offsetX = 30;
     public static final int offsetY = Gdx.graphics.getHeight() - 1430;
 
+    MainApplication parent;
     Stage stage;
     public static Group cars;
     public static ArrayList<ArrayList<CarState>> previousStates;
@@ -33,11 +41,17 @@ public class PuzzleScreen extends ScreenAdapter {
 
     int puzzleNumber;
 
-    public PuzzleScreen() {
-        init(1);
+    public PuzzleScreen(MainApplication mainApplication) {
+        parent = mainApplication;
     }
 
-    public PuzzleScreen(int puzzleNumber) {
+    public PuzzleScreen(MainApplication mainApplication, int puzzleNumber) {
+        parent = mainApplication;
+        this.puzzleNumber = puzzleNumber;
+    }
+
+    @Override
+    public void show() {
         init(puzzleNumber);
     }
 
@@ -55,6 +69,15 @@ public class PuzzleScreen extends ScreenAdapter {
         stage.addActor(cars);
         // Setup UI
         UndoButton undoButton = new UndoButton(this, 520, 100);
+        MenuButton menuButton = new MenuButton(10, 100);
+        menuButton.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                parent.changeScreen(MENU);
+                return true;
+            }
+        });
+        stage.addActor(menuButton);
         stage.addActor(undoButton);
         stage.addActor(new RestartButton(this, (int) (undoButton.getX() + undoButton.getWidth() + 10), 100));
         stage.addActor(moveCounter);
