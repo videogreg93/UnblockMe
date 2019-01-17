@@ -52,20 +52,18 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
 
     @Override
     public void show() {
-        init(puzzleNumber);
+        init();
     }
 
-    private void init(int puzzleNumber) {
-        this.puzzleNumber = puzzleNumber;
+    private void init() {
         stage = new Stage();
         cars = new Group();
         previousStates = new ArrayList<ArrayList<CarState>>();
-        playerCar = new PlayerCar(this, 0 + offsetX, (3 * BLOCKSIZE) + offsetY);
+
         moveCounter = new MoveCounter();
         Gdx.input.setInputProcessor(stage);
         stage.addActor(new Background("background.png"));
-        loadPuzzle();
-        cars.addActor(playerCar);
+        loadPuzzle(puzzleNumber);
         stage.addActor(cars);
         // Setup UI
         UndoButton undoButton = new UndoButton(this, 520, 100);
@@ -84,13 +82,19 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
         showPuzzleChooser();
     }
 
-    private void loadPuzzle() {
+    private void loadPuzzle(int puzzleNumber) {
         JsonReader jsonReader = new JsonReader();
-        JsonValue jsonValue = jsonReader.parse(Gdx.files.internal("puzzles/testPuzzle.json"));
-        for (int i = 0; i < jsonValue.size; i++) {
+        JsonValue jsonValue = jsonReader.parse(Gdx.files.internal("puzzles/puzzle" + ((Integer) puzzleNumber).toString() + ".json"));
+        JsonValue playerCarValue = jsonValue.get(0);
+        int xCar = playerCarValue.getInt("x") * BLOCKSIZE;
+        int yCar = playerCarValue.getInt("y") * BLOCKSIZE;
+        playerCar = new PlayerCar(this, xCar + offsetX, yCar + offsetY);
+        cars.addActor(playerCar);
+
+        for (int i = 1; i < jsonValue.size; i++) {
             JsonValue truck = jsonValue.get(i);
-            int x = truck.getInt("x") * 170;
-            int y = truck.getInt("y") * 170;
+            int x = truck.getInt("x") * BLOCKSIZE;
+            int y = truck.getInt("y") * BLOCKSIZE;
             Car.ORIENTATION orientation;
             if (truck.getString("orientation").equals("right"))
                 orientation = Car.ORIENTATION.RIGHT;
@@ -130,7 +134,7 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
     }
 
     public void restart() {
-        init(puzzleNumber);
+        init();
     }
 
     public void addMove() {
@@ -153,6 +157,6 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
     public void changePuzzle(boolean isRight) {
         // TODO implement
         puzzleNumber += isRight ? 1 : -1;
-        init(puzzleNumber);
+        init();
     }
 }

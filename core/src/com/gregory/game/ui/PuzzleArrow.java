@@ -10,7 +10,6 @@ import com.gregory.game.screens.PuzzleScreen;
 
 public class PuzzleArrow extends Actor {
     PuzzleScreen puzzleScreen;
-    boolean isRight;
     boolean isEnabled = true;
     Sprite sprite;
 
