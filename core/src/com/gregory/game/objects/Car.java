@@ -15,6 +15,8 @@ import com.gregory.game.screens.PuzzleScreen;
 import java.util.ArrayList;
 
 import static com.gregory.game.screens.PuzzleScreen.BLOCKSIZE;
+import static com.gregory.game.screens.PuzzleScreen.GRID_HEIGHT;
+import static com.gregory.game.screens.PuzzleScreen.GRID_WIDTH;
 import static com.gregory.game.screens.PuzzleScreen.cars;
 import static com.gregory.game.screens.PuzzleScreen.offsetX;
 import static com.gregory.game.screens.PuzzleScreen.offsetY;
@@ -72,11 +74,11 @@ public class Car extends Actor {
                 y = Math.min(BLOCKSIZE, y);
                 if (orientation == ORIENTATION.RIGHT) {
                     moveBy(x, 0);
-                    if (outOfBounds() || isColliding())
+                    if (outOfBoundsHorizontal() || isColliding())
                         moveBy(-x, 0);
                 } else {
                     moveBy(0, y);
-                    if (outOfBounds() || isColliding())
+                    if (outOfBoundsVertical() || isColliding())
                         moveBy(0, -y);
                 }
                 Gdx.app.log("GregDrag", "" + x);
@@ -98,6 +100,16 @@ public class Car extends Actor {
                 super.touchUp(event, x, y, pointer, button);
             }
         });
+    }
+
+    private boolean outOfBoundsHorizontal() {
+        return (getX() + getWidth() > offsetX + GRID_WIDTH * BLOCKSIZE
+                || getX() < offsetX);
+    }
+
+    private boolean outOfBoundsVertical() {
+        return (getY() + getHeight() > offsetY + GRID_HEIGHT * BLOCKSIZE
+                || getY() < offsetY);
     }
 
     private boolean outOfBounds() {

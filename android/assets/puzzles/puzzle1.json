@@ -11,14 +11,38 @@
   },
   {
     "x": 0,
-    "y": 4,
+    "y": 1,
     "orientation": "up",
     "size": 2
   },
   {
+    "x": 0,
+    "y": 5,
+    "orientation": "right",
+    "size": 3
+  },
+  {
     "x": 2,
-    "y": 4,
+    "y": 2,
+    "orientation": "up",
+    "size": 3
+  },
+  {
+    "x": 4,
+    "y": 0,
     "orientation": "up",
     "size": 2
+  },
+  {
+    "x": 4,
+    "y": 2,
+    "orientation": "right",
+    "size": 2
+  },
+  {
+    "x": 5,
+    "y": 3,
+    "orientation": "up",
+    "size": 3
   }
 ]

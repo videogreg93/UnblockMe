@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.gregory.game.MainApplication;
+import com.gregory.game.RecordManager;
 import com.gregory.game.Utils.Background;
 import com.gregory.game.Utils.CarState;
 import com.gregory.game.ui.MenuButton;
@@ -31,6 +32,8 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
     public static final int BLOCKSIZE = 170;
     public static final int offsetX = 30;
     public static final int offsetY = Gdx.graphics.getHeight() - 1430;
+    public static final int GRID_WIDTH = 6;
+    public static final int GRID_HEIGHT = 6;
 
     MainApplication parent;
     Stage stage;
@@ -60,7 +63,7 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
         cars = new Group();
         previousStates = new ArrayList<ArrayList<CarState>>();
 
-        moveCounter = new MoveCounter();
+        moveCounter = new MoveCounter(RecordManager.getRecordForPuzzle(puzzleNumber),RecordManager.getMinimumForPuzzle(puzzleNumber));
         Gdx.input.setInputProcessor(stage);
         stage.addActor(new Background("background.png"));
         loadPuzzle(puzzleNumber);
@@ -148,6 +151,8 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
 
     public void onWin() {
         stage.addActor(new WinDialog(this, Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/2));
+        RecordManager.saveRecordForPuzzle(puzzleNumber,moveCounter.getMoves());
+        moveCounter.setRecord(RecordManager.getRecordForPuzzle(puzzleNumber));
     }
 
     public void grabInput() {
@@ -155,7 +160,8 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
     }
 
     public void changePuzzle(boolean isRight) {
-        // TODO implement
+        if (puzzleNumber == 3)
+            return;
         puzzleNumber += isRight ? 1 : -1;
         init();
     }

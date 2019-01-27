@@ -44,6 +44,7 @@ public class WinDialog extends Actor implements InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         this.remove();
         puzzleScreen.grabInput();
+        puzzleScreen.changePuzzle(true);
         return true;
     }
 

@@ -17,7 +17,7 @@ public class MainApplication extends Game {
     @Override
     public void create() {
         loadTextures();
-        //setScreen(new PuzzleScreen());
+        initManagers();
         setScreen(new MenuScreen(this));
     }
 
@@ -33,6 +33,10 @@ public class MainApplication extends Game {
 
     private void loadTextures() {
         Truck.loadTextures();
+    }
+
+    private void initManagers() {
+        RecordManager.init();
     }
 
 
