@@ -51,7 +51,7 @@ public class MainApplication extends Game {
                 this.setScreen(new AboutScreen(this));
                 break;
             case APPLICATION:
-                if(puzzleScreen == null) puzzleScreen = new PuzzleScreen(this, 1);
+                if(puzzleScreen == null) puzzleScreen = new PuzzleScreen(this);
                 this.setScreen(puzzleScreen);
                 break;
         }

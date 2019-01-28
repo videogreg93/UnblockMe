@@ -3,6 +3,7 @@ package com.gregory.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -17,13 +18,13 @@ import com.gregory.game.Utils.CarState;
 import com.gregory.game.ui.MenuButton;
 import com.gregory.game.ui.MoveCounter;
 import com.gregory.game.ui.PuzzleArrow;
+import com.gregory.game.ui.PuzzleCounter;
 import com.gregory.game.ui.RestartButton;
 import com.gregory.game.ui.UndoButton;
 import com.gregory.game.ui.WinDialog;
 import com.gregory.game.objects.Car;
 import com.gregory.game.objects.PlayerCar;
 import com.gregory.game.objects.Truck;
-
 import java.util.ArrayList;
 
 import static com.gregory.game.Utils.Screens.MENU;
@@ -41,16 +42,11 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
     public static ArrayList<ArrayList<CarState>> previousStates;
     PlayerCar playerCar;
     MoveCounter moveCounter;
-
-    int puzzleNumber;
+    PuzzleCounter puzzleCounter;
 
     public PuzzleScreen(MainApplication mainApplication) {
         parent = mainApplication;
-    }
-
-    public PuzzleScreen(MainApplication mainApplication, int puzzleNumber) {
-        parent = mainApplication;
-        this.puzzleNumber = puzzleNumber;
+        puzzleCounting();
     }
 
     @Override
@@ -58,15 +54,23 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
         init();
     }
 
+    private void puzzleCounting() {
+        FileHandle fileHandle = Gdx.files.internal("puzzles");
+        FileHandle[] list = fileHandle.list();
+        puzzleCounter = new PuzzleCounter(list.length);
+    }
+
     private void init() {
         stage = new Stage();
         cars = new Group();
         previousStates = new ArrayList<ArrayList<CarState>>();
 
-        moveCounter = new MoveCounter(RecordManager.getRecordForPuzzle(puzzleNumber),RecordManager.getMinimumForPuzzle(puzzleNumber));
+        moveCounter = new MoveCounter(RecordManager.getRecordForPuzzle(puzzleCounter.getCounter()),
+                RecordManager.getMinimumForPuzzle(puzzleCounter.getCounter()));
+
         Gdx.input.setInputProcessor(stage);
         stage.addActor(new Background("background.png"));
-        loadPuzzle(puzzleNumber);
+        loadPuzzle(puzzleCounter.getCounter());
         stage.addActor(cars);
         // Setup UI
         UndoButton undoButton = new UndoButton(this, 520, 100);
@@ -82,6 +86,7 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
         stage.addActor(undoButton);
         stage.addActor(new RestartButton(this, (int) (undoButton.getX() + undoButton.getWidth() + 10), 100));
         stage.addActor(moveCounter);
+        stage.addActor(puzzleCounter);
         showPuzzleChooser();
     }
 
@@ -108,8 +113,8 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
     }
 
     private void showPuzzleChooser() {
-        PuzzleArrow leftArrow = new PuzzleArrow(this, false, offsetX + 10 , Gdx.graphics.getHeight() - 300, puzzleNumber);
-        PuzzleArrow rightArrow = new PuzzleArrow(this, true, offsetX - 30 + (3*BLOCKSIZE) , Gdx.graphics.getHeight() - 300, puzzleNumber);
+        PuzzleArrow leftArrow = new PuzzleArrow(this, false, offsetX + 10 , Gdx.graphics.getHeight() - 300, puzzleCounter.getCounter());
+        PuzzleArrow rightArrow = new PuzzleArrow(this, true, offsetX - 30 + (3*BLOCKSIZE) , Gdx.graphics.getHeight() - 300, puzzleCounter.getCounter());
         stage.addActor(leftArrow);
         stage.addActor(rightArrow);
 
@@ -151,8 +156,9 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
 
     public void onWin() {
         stage.addActor(new WinDialog(this, Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/2));
-        RecordManager.saveRecordForPuzzle(puzzleNumber,moveCounter.getMoves());
-        moveCounter.setRecord(RecordManager.getRecordForPuzzle(puzzleNumber));
+        RecordManager.saveRecordForPuzzle(puzzleCounter.getCounter(),moveCounter.getMoves());
+        moveCounter.setRecord(RecordManager.getRecordForPuzzle(puzzleCounter.getCounter()));
+        puzzleCounter.increment();
     }
 
     public void grabInput() {
@@ -160,9 +166,10 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
     }
 
     public void changePuzzle(boolean isRight) {
-        if (puzzleNumber == 3)
+        if (puzzleCounter.getCounter() == 3 && isRight)
             return;
-        puzzleNumber += isRight ? 1 : -1;
+        if (isRight) puzzleCounter.increment();
+        else puzzleCounter.decrement();
         init();
     }
 }
