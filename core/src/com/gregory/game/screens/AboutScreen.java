@@ -1,18 +1,17 @@
 package com.gregory.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.gregory.game.MainApplication;
+import com.gregory.game.Utils.FontGenerator;
 import com.gregory.game.ui.MenuButton;
 
 import static com.gregory.game.Utils.Screens.MENU;
@@ -38,9 +37,8 @@ public class AboutScreen implements Screen {
         Gdx.input.setCatchBackKey(true);
 
         batch = new SpriteBatch();
-        font = new BitmapFont();
-        font.getData().setScale(5);
-        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        font = FontGenerator.getInstance().font;
+
         MenuButton menuButton = new MenuButton(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 10, (float)1/4);
         menuButton.addListener(new ClickListener() {
             @Override
@@ -62,11 +60,10 @@ public class AboutScreen implements Screen {
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
 
-        CharSequence str = "Grégory Fournier\nErwan Bouet\nThéo Moffelein";
-        final GlyphLayout layout = new GlyphLayout(font, str);
+        CharSequence str = "Gregory Fournier\nErwan Bouet\nTheo Moffelein";
 
         batch.begin();
-        font.draw(batch, str, stage.getCamera().viewportWidth / 2 - layout.width / 2, stage.getCamera().viewportHeight / 2 + layout.height / 2);
+        font.draw(batch, str, 0 , 2 * Gdx.graphics.getHeight() / 3f, Gdx.graphics.getWidth(), Align.center, true);
         batch.end();
     }
 
@@ -99,6 +96,5 @@ public class AboutScreen implements Screen {
         // dispose of assets when not needed anymore
         stage.dispose();
         batch.dispose();
-        font.dispose();
     }
 }

@@ -75,7 +75,7 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
         // Setup UI
         MenuButton menuButton = new MenuButton(Gdx.graphics.getWidth() / 4, 200, (float)1/5);
         UndoButton undoButton = new UndoButton(this, 2 * Gdx.graphics.getWidth() / 4, 200, (float)1/5);
-
+        RestartButton restartButton = new RestartButton(this,3 * Gdx.graphics.getWidth() / 4, 200, (float)1/5);
         menuButton.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -83,9 +83,10 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
                 return true;
             }
         });
+        // Add Actors to stage
         stage.addActor(menuButton);
         stage.addActor(undoButton);
-        stage.addActor(new RestartButton(this,3 * Gdx.graphics.getWidth() / 4, 200, (float)1/5));
+        stage.addActor(restartButton);
         stage.addActor(moveCounter);
         stage.addActor(puzzleCounter);
         showPuzzleChooser();
@@ -114,8 +115,8 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
     }
 
     private void showPuzzleChooser() {
-        PuzzleArrow leftArrow = new PuzzleArrow(this, false, offsetX + 10 , Gdx.graphics.getHeight() - 300, puzzleCounter.getCounter());
-        PuzzleArrow rightArrow = new PuzzleArrow(this, true, offsetX - 30 + (3*BLOCKSIZE) , Gdx.graphics.getHeight() - 300, puzzleCounter.getCounter());
+        PuzzleArrow leftArrow = new PuzzleArrow(this, false, offsetX + 10 , Gdx.graphics.getHeight() - 325, puzzleCounter.getCounter());
+        PuzzleArrow rightArrow = new PuzzleArrow(this, true, offsetX - 30 + (3*BLOCKSIZE) , Gdx.graphics.getHeight() - 325, puzzleCounter.getCounter());
         stage.addActor(leftArrow);
         stage.addActor(rightArrow);
 

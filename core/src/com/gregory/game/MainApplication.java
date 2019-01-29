@@ -2,16 +2,18 @@ package com.gregory.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.gregory.game.Utils.FontGenerator;
 import com.gregory.game.Utils.Screens;
 import com.gregory.game.objects.Truck;
 import com.gregory.game.screens.AboutScreen;
 import com.gregory.game.screens.MenuScreen;
 import com.gregory.game.screens.PuzzleScreen;
 
+import java.awt.Font;
+
 public class MainApplication extends Game {
 
     private MenuScreen menuScreen;
-    private PuzzleScreen puzzleScreen;
     private AboutScreen aboutScreen;
 
     @Override
@@ -28,7 +30,7 @@ public class MainApplication extends Game {
 
     @Override
     public void dispose() {
-
+        FontGenerator.getInstance().font.dispose();
     }
 
     private void loadTextures() {
@@ -51,8 +53,7 @@ public class MainApplication extends Game {
                 this.setScreen(new AboutScreen(this));
                 break;
             case APPLICATION:
-                if(puzzleScreen == null) puzzleScreen = new PuzzleScreen(this);
-                this.setScreen(puzzleScreen);
+                this.setScreen(new PuzzleScreen(this));
                 break;
         }
     }
