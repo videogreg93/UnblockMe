@@ -15,16 +15,24 @@ public class RestartButton extends Actor {
     PuzzleScreen puzzleScreen;
     Color defaultColor;
 
-    public RestartButton(final PuzzleScreen puzzleScreen, int x, int y) {
+    public RestartButton(final PuzzleScreen puzzleScreen, int x, int y, float ratio) {
         this.puzzleScreen = puzzleScreen;
         sprite = new Sprite(new Texture("restartButton.png"));
-        sprite.setPosition(x, y);
-        sprite.setBounds(x, y, sprite.getWidth(), sprite.getHeight());
-        this.setWidth(sprite.getWidth());
-        this.setHeight(sprite.getHeight());
-        this.setBounds(x,y,getWidth(),getHeight());
-        this.setPosition(x,y);
+
+        float width = Gdx.graphics.getWidth() * ratio;
+        float height = width * sprite.getHeight() / sprite.getWidth();
+        float posX = x - width / 2;
+        float posY = y - height / 2;
+
+        sprite.setPosition(posX, posY);
+        sprite.setBounds(posX,posY, width, height);
+        this.setWidth(width);
+        this.setHeight(height);
+        this.setBounds(posX,posY,width,height);
+        this.setPosition(posX,posY);
         sprite.setOriginCenter();
+
+
 
         defaultColor = sprite.getColor();
 

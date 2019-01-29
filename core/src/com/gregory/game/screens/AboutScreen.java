@@ -41,7 +41,7 @@ public class AboutScreen implements Screen {
         font = new BitmapFont();
         font.getData().setScale(5);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        MenuButton menuButton = new MenuButton(400, 200);
+        MenuButton menuButton = new MenuButton(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 10, (float)1/4);
         menuButton.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

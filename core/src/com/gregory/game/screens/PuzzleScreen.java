@@ -73,8 +73,9 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
         loadPuzzle(puzzleCounter.getCounter());
         stage.addActor(cars);
         // Setup UI
-        UndoButton undoButton = new UndoButton(this, 520, 100);
-        MenuButton menuButton = new MenuButton(10, 100);
+        MenuButton menuButton = new MenuButton(Gdx.graphics.getWidth() / 4, 200, (float)1/5);
+        UndoButton undoButton = new UndoButton(this, 2 * Gdx.graphics.getWidth() / 4, 200, (float)1/5);
+
         menuButton.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -84,7 +85,7 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
         });
         stage.addActor(menuButton);
         stage.addActor(undoButton);
-        stage.addActor(new RestartButton(this, (int) (undoButton.getX() + undoButton.getWidth() + 10), 100));
+        stage.addActor(new RestartButton(this,3 * Gdx.graphics.getWidth() / 4, 200, (float)1/5));
         stage.addActor(moveCounter);
         stage.addActor(puzzleCounter);
         showPuzzleChooser();
