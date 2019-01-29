@@ -30,8 +30,8 @@ import java.util.ArrayList;
 import static com.gregory.game.Utils.Screens.MENU;
 
 public class PuzzleScreen extends ScreenAdapter implements Screen {
-    public static final int BLOCKSIZE = 170;
-    public static final int offsetX = 30;
+    public static final int BLOCKSIZE = Gdx.graphics.getWidth() / 6 - 10; /*170*/
+    public static final int offsetX = Gdx.graphics.getWidth() / 36; /*30*/
     public static final int offsetY = Gdx.graphics.getHeight() - 1430;
     public static final int GRID_WIDTH = 6;
     public static final int GRID_HEIGHT = 6;

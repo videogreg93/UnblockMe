@@ -4,9 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -37,23 +39,39 @@ public class MenuScreen implements Screen {
         // Create a table that fills the screen. Everything else will go inside this table.
         Table table = new Table();
         table.setFillParent(true);
-        table.setDebug(true);
+        table.setWidth(Gdx.graphics.getWidth() / 2);
 
+
+        Image title = new Image(new Texture("title.png"));
+        float titleWidth = Gdx.graphics.getWidth();
+        float titleHeight = titleWidth * title.getHeight() / title.getWidth();
+        float posX = Gdx.graphics.getWidth() / 2 - titleWidth / 2;
+        float posY = Gdx.graphics.getHeight() - titleHeight - 100;
+        title.setPosition(posX, posY);
+        title.setBounds(posX,posY, titleWidth, titleHeight);
+        stage.addActor(title);
 
         //create buttons
         Texture playTexture = new Texture("playButton.png");
         Drawable playDrawable = new TextureRegionDrawable(new TextureRegion(playTexture));
+        float buttonWidth = Gdx.graphics.getWidth() / 2;
+        float buttonHeight = buttonWidth * playTexture.getHeight() / playTexture.getWidth();
+        playDrawable.setMinWidth(buttonWidth);
+        playDrawable.setMinHeight(buttonHeight);
         ImageButton playButton = new ImageButton(playDrawable);
+
 
         Texture aboutTexture = new Texture("aboutButton.png");
         Drawable aboutDrawable = new TextureRegionDrawable(new TextureRegion(aboutTexture));
+        aboutDrawable.setMinWidth(buttonWidth);
+        aboutDrawable.setMinHeight(buttonHeight);
         ImageButton aboutButton = new ImageButton(aboutDrawable);
 
         Texture exitTexture = new Texture("exitButton.png");
         Drawable exitDrawable = new TextureRegionDrawable(new TextureRegion(exitTexture));
+        exitDrawable.setMinWidth(buttonWidth);
+        exitDrawable.setMinHeight(buttonHeight);
         ImageButton exitButton = new ImageButton(exitDrawable);
-
-
 
         //add buttons to table
         table.add(playButton).fillX().uniformX();

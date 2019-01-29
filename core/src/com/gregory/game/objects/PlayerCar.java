@@ -20,7 +20,6 @@ public class PlayerCar extends Car {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
-                // TODO check for win conditions here
                 if (getX() == offsetX + 4 * BLOCKSIZE &&
                         getY() == offsetY + 3 * BLOCKSIZE) {
                     puzzleScreen.onWin();
