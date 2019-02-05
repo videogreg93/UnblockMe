@@ -2,6 +2,7 @@ package com.gregory.game.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -10,77 +11,52 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.gregory.game.screens.PuzzleScreen;
 
-public class WinDialog extends Actor implements InputProcessor {
-    Sprite background;
+public class WinDialog extends Actor {
+    Sprite sprite;
     PuzzleScreen puzzleScreen;
-    private float t;
+    private float alpha;
     private float elapsedTime;
+    private float displayTime;
+    private float transitionTime;
 
-    public WinDialog(PuzzleScreen puzzleScreen, int x, int y) {
-        background = new Sprite(new Texture("winDialog.png"));
-        background.setPosition(x,y);
-        this.puzzleScreen = puzzleScreen;
-        Gdx.input.setInputProcessor(this);
-        t = 1;
+    public WinDialog(PuzzleScreen puzzleScreen, int x, int y, float ratio) {
+        alpha = 1;
         elapsedTime = 0;
+        displayTime = 3;
+        transitionTime = 1;
+
+        this.puzzleScreen = puzzleScreen;
+
+        sprite = new Sprite(new Texture("winDialog.png"));
+        float width = Gdx.graphics.getWidth() * ratio;
+        float height = width * sprite.getHeight() / sprite.getWidth();
+        float posX = x - width / 2;
+        float posY = y - height / 2;
+
+        sprite.setPosition(posX, posY);
+        sprite.setBounds(posX,posY, width, height);
+        this.setWidth(width);
+        this.setHeight(height);
+        this.setBounds(posX,posY,width,height);
+        this.setPosition(posX,posY);
+        sprite.setOriginCenter();
     }
 
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        elapsedTime += Gdx.graphics.getDeltaTime();
-        if(elapsedTime >= 3 && t > 0) {
-
-            background.setAlpha(t);
+        if(elapsedTime >= displayTime && elapsedTime < displayTime + transitionTime) {
+            alpha = (transitionTime - (elapsedTime - displayTime)) / transitionTime;
+            sprite.setAlpha(alpha);
         }
-        else if (t <= 0){
+        else if(elapsedTime >= displayTime + transitionTime) {
             this.remove();
-            t = 0;
             puzzleScreen.grabInput();
             puzzleScreen.changePuzzle(true);
         }
-        t -= 0.01;
 
-        background.draw(batch);
-    }
+        elapsedTime += Gdx.graphics.getDeltaTime();
 
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return true;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
+        sprite.draw(batch);
     }
 }

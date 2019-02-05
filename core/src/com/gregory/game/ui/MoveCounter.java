@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Align;
 import com.gregory.game.Utils.FontGenerator;
+import com.gregory.game.screens.PuzzleScreen;
 
 /**
  * Displays the move counter and the record counter
@@ -18,9 +19,9 @@ public class MoveCounter extends Actor {
     private int rightOffset = 340;
     private int topOffset = 140;
 
-    public MoveCounter(int recordForPuzzle, int minimumForPuzzle) {
-        font = FontGenerator.getInstance().font;
-        font.getData().setScale(0.75f);
+    public MoveCounter(BitmapFont parentFont, int recordForPuzzle, int minimumForPuzzle) {
+        this.font = parentFont;
+        this.font.getData().setScale(0.75f);
         record = recordForPuzzle;
         minimum = minimumForPuzzle;
     }
@@ -51,7 +52,6 @@ public class MoveCounter extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-
         font.draw(batch, "Moves", Gdx.graphics.getWidth() - rightOffset, Gdx.graphics.getHeight() - topOffset);
         font.draw(batch, "" + moves, Gdx.graphics.getWidth() - rightOffset, Gdx.graphics.getHeight() - topOffset - font.getLineHeight(), 225, Align.center, true);
         font.draw(batch, recordString(), Gdx.graphics.getWidth() - rightOffset, Gdx.graphics.getHeight() - topOffset - 2*font.getLineHeight(), 225, Align.center, true);

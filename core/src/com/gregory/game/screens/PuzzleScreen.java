@@ -57,7 +57,7 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
     private void puzzleCounting() {
         FileHandle fileHandle = Gdx.files.internal("puzzles");
         FileHandle[] list = fileHandle.list();
-        puzzleCounter = new PuzzleCounter(list.length);
+        puzzleCounter = new PuzzleCounter(parent.getFont(), list.length);
     }
 
     private void init() {
@@ -65,7 +65,7 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
         cars = new Group();
         previousStates = new ArrayList<ArrayList<CarState>>();
 
-        moveCounter = new MoveCounter(RecordManager.getRecordForPuzzle(puzzleCounter.getCounter()),
+        moveCounter = new MoveCounter(parent.getFont(), RecordManager.getRecordForPuzzle(puzzleCounter.getCounter()),
                 RecordManager.getMinimumForPuzzle(puzzleCounter.getCounter()));
 
         Gdx.input.setInputProcessor(stage);
@@ -157,10 +157,9 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
 
 
     public void onWin() {
-        stage.addActor(new WinDialog(this, Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/2));
+        stage.addActor(new WinDialog(this, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, (float)2/3));
         RecordManager.saveRecordForPuzzle(puzzleCounter.getCounter(),moveCounter.getMoves());
         moveCounter.setRecord(RecordManager.getRecordForPuzzle(puzzleCounter.getCounter()));
-        puzzleCounter.increment();
     }
 
     public void grabInput() {
@@ -173,5 +172,11 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
         if (isRight) puzzleCounter.increment();
         else puzzleCounter.decrement();
         init();
+    }
+
+    @Override
+    public void dispose() {
+        // dispose of assets when not needed anymore
+        stage.dispose();
     }
 }

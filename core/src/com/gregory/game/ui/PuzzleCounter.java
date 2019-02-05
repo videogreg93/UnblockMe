@@ -16,9 +16,9 @@ public class PuzzleCounter extends Actor {
     int puzzle;
     int max;
 
-    public PuzzleCounter(int max) {
-        font = FontGenerator.getInstance().font;
-        font.getData().setScale(0.8f);
+    public PuzzleCounter(BitmapFont parentFont, int max) {
+        this.font = parentFont;
+        this.font.getData().setScale(0.8f);
         this.puzzle = 1;
         this.max = max;
     }

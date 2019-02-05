@@ -37,7 +37,7 @@ public class AboutScreen implements Screen {
         Gdx.input.setCatchBackKey(true);
 
         batch = new SpriteBatch();
-        font = FontGenerator.getInstance().font;
+        font = parent.getFont();
 
         MenuButton menuButton = new MenuButton(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 10, (float)1/4);
         menuButton.addListener(new ClickListener() {
@@ -96,5 +96,6 @@ public class AboutScreen implements Screen {
         // dispose of assets when not needed anymore
         stage.dispose();
         batch.dispose();
+        font.dispose();
     }
 }

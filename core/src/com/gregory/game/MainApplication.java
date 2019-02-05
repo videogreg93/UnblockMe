@@ -2,6 +2,7 @@ package com.gregory.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.gregory.game.Utils.FontGenerator;
 import com.gregory.game.Utils.Screens;
 import com.gregory.game.objects.Truck;
@@ -9,15 +10,14 @@ import com.gregory.game.screens.AboutScreen;
 import com.gregory.game.screens.MenuScreen;
 import com.gregory.game.screens.PuzzleScreen;
 
-import java.awt.Font;
 
 public class MainApplication extends Game {
 
-    private MenuScreen menuScreen;
-    private AboutScreen aboutScreen;
+    private BitmapFont font;
 
     @Override
     public void create() {
+        this.font = FontGenerator.getFont();
         loadTextures();
         initManagers();
         setScreen(new MenuScreen(this));
@@ -30,7 +30,7 @@ public class MainApplication extends Game {
 
     @Override
     public void dispose() {
-        FontGenerator.getInstance().font.dispose();
+        font.dispose();
     }
 
     private void loadTextures() {
@@ -45,16 +45,19 @@ public class MainApplication extends Game {
     public void changeScreen(Screens screen){
         switch(screen){
             case MENU:
-                if(menuScreen == null) menuScreen = new MenuScreen(this);
-                this.setScreen(menuScreen);
+                this.setScreen(new MenuScreen(this));
                 break;
             case ABOUT:
-                if(aboutScreen == null) aboutScreen = new AboutScreen(this);
                 this.setScreen(new AboutScreen(this));
                 break;
             case APPLICATION:
                 this.setScreen(new PuzzleScreen(this));
                 break;
         }
+    }
+
+    public BitmapFont getFont()
+    {
+        return this.font;
     }
 }
