@@ -43,8 +43,14 @@ public class WinDialog extends Actor {
     }
 
 
+    /**
+     * Shows the win dialog and performs the fade out animation after 3 seconds
+     * @param batch
+     * @param parentAlpha
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        // Fade out animation is a lerp with the alpha value of the sprite
         if(elapsedTime >= displayTime && elapsedTime < displayTime + transitionTime) {
             alpha = (transitionTime - (elapsedTime - displayTime)) / transitionTime;
             sprite.setAlpha(alpha);

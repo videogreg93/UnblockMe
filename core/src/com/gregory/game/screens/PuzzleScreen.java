@@ -60,6 +60,9 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
         puzzleCounter = new PuzzleCounter(parent.getFont(), list.length);
     }
 
+    /**
+     * Inits the puzzle grid
+     */
     private void init() {
         stage = new Stage();
         cars = new Group();
@@ -92,6 +95,10 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
         showPuzzleChooser();
     }
 
+    /**
+     * Loads the puzzle from the Json configuation file in the assets folder
+     * @param puzzleNumber
+     */
     private void loadPuzzle(int puzzleNumber) {
         JsonReader jsonReader = new JsonReader();
         JsonValue jsonValue = jsonReader.parse(Gdx.files.internal("puzzles/puzzle" + ((Integer) puzzleNumber).toString() + ".json"));
@@ -114,6 +121,9 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
         }
     }
 
+    /**
+     * Displays the arrows to switch puzzles
+     */
     private void showPuzzleChooser() {
         PuzzleArrow leftArrow = new PuzzleArrow(this, false, offsetX + 10 , Gdx.graphics.getHeight() - 325, puzzleCounter.getCounter());
         PuzzleArrow rightArrow = new PuzzleArrow(this, true, offsetX - 30 + (3*BLOCKSIZE) , Gdx.graphics.getHeight() - 325, puzzleCounter.getCounter());
@@ -129,7 +139,9 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
         stage.draw();
     }
 
-    // Button Handlers
+    /**
+     * Handles the undo action
+     */
     public void undo() {
         if (!previousStates.isEmpty()) {
             cars.clearChildren();
@@ -156,6 +168,9 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
     }
 
 
+    /**
+     * Diplays the win dialog
+     */
     public void onWin() {
         stage.addActor(new WinDialog(this, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, (float)2/3));
         RecordManager.saveRecordForPuzzle(puzzleCounter.getCounter(),moveCounter.getMoves());
@@ -166,6 +181,10 @@ public class PuzzleScreen extends ScreenAdapter implements Screen {
         Gdx.input.setInputProcessor(stage);
     }
 
+    /**
+     * Changes the puzzle, if isRight, go to next puzzle, else go to previous
+     * @param isRight
+     */
     public void changePuzzle(boolean isRight) {
         if (puzzleCounter.getCounter() == 3 && isRight)
             return;

@@ -22,16 +22,16 @@ import static com.gregory.game.Utils.Screens.APPLICATION;
 
 public class MenuScreen implements Screen {
 
-
     private MainApplication parent;
     private Stage stage;
 
     public MenuScreen(MainApplication mainApplication){
-
         parent = mainApplication;
-
     }
 
+    /**
+     * Creats the menu screen
+     */
     @Override
     public void show() {
         stage = new Stage(new ScreenViewport());
@@ -125,19 +125,16 @@ public class MenuScreen implements Screen {
 
     @Override
     public void pause() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void resume() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void hide() {
-        // TODO Auto-generated method stub
 
     }
 

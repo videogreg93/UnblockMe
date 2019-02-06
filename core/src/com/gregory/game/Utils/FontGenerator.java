@@ -6,7 +6,10 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class FontGenerator {
 
-
+    /**
+     * Creats the BitmapFont from the .ttf file in the assets folder
+     * @return
+     */
     public static BitmapFont getFont()
     {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Roboto-Regular.ttf"));

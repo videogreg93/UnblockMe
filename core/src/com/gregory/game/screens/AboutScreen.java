@@ -11,13 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.gregory.game.MainApplication;
-import com.gregory.game.Utils.FontGenerator;
 import com.gregory.game.ui.MenuButton;
 
 import static com.gregory.game.Utils.Screens.MENU;
 
 public class AboutScreen implements Screen {
-
 
     private Stage stage;
     private BitmapFont font;
@@ -26,10 +24,12 @@ public class AboutScreen implements Screen {
 
     public AboutScreen(MainApplication mainApplication) {
         parent = mainApplication;
-        /// create stage and set it as input processor
     }
 
 
+    /**
+     * Creats the about screen
+     */
     @Override
     public void show() {
         stage = new Stage(new ScreenViewport());
@@ -50,6 +50,10 @@ public class AboutScreen implements Screen {
         stage.addActor(menuButton);
     }
 
+    /**
+     * Renders the text to display
+     * @param delta
+     */
     @Override
     public void render(float delta) {
         // clear the screen ready for next set of images to be drawn
@@ -76,19 +80,16 @@ public class AboutScreen implements Screen {
 
     @Override
     public void pause() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void resume() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void hide() {
-        // TODO Auto-generated method stub
     }
 
     @Override

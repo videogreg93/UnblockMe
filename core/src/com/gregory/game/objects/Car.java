@@ -66,7 +66,6 @@ public class Car extends Actor {
 
             @Override
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
-                //todo make this less janky
                 x -= getWidth() / 2;
                 y -= getHeight() / 2;
                 // clamp values to avoid passing over other cars
@@ -86,11 +85,9 @@ public class Car extends Actor {
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                // TODO make this round to nearest block instead of rounding always down
                 setX((Math.round((getX() - offsetX) / BLOCKSIZE) * BLOCKSIZE) + offsetX);
                 setY((Math.round((getY() - offsetY) / BLOCKSIZE) * BLOCKSIZE) + offsetY);
                 Position newPosition = new Position(getX(), getY());
-                // TODO compare with old position to see if it counts as a move
                 if (previousPosition.equals(newPosition)) {
                     previousStates.remove(previousStates.size() - 1);
                 } else {
@@ -113,7 +110,6 @@ public class Car extends Actor {
     }
 
     private boolean outOfBounds() {
-        // TODO Account for size
         return (getX() > offsetX + 4 * BLOCKSIZE || getY() > offsetY + 4 * BLOCKSIZE
                 || getX() < offsetX || getY() < offsetY);
     }

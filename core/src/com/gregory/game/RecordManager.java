@@ -10,6 +10,9 @@ public class RecordManager {
     private static final String RECORDS = "RECORDS";
     private static final String MINIMUM = "MINIMUM";
 
+    /**
+     * Loads the records from the app storage and set the mininum possible scores
+     */
     public static void init() {
         records = Gdx.app.getPreferences(RECORDS);
         minimums = Gdx.app.getPreferences(MINIMUM);
@@ -20,10 +23,20 @@ public class RecordManager {
         minimums.flush();
     }
 
+    /**
+     * Gets the record for a puzzle
+     * @param puzzleNumber
+     * @return
+     */
     public static int getRecordForPuzzle(int puzzleNumber) {
         return records.getInteger(Integer.toString(puzzleNumber), 0);
     }
 
+    /**
+     * Saves the record for a puzzle
+     * @param puzzleNumber
+     * @param record
+     */
     public static void saveRecordForPuzzle(int puzzleNumber, int record) {
         int currentRecord = getRecordForPuzzle(puzzleNumber);
         if (currentRecord == 0 || record < currentRecord) {
@@ -32,6 +45,11 @@ public class RecordManager {
         }
     }
 
+    /**
+     * Gets the mininum possible moves count for a puzzle
+     * @param puzzleNumber
+     * @return
+     */
     public static int getMinimumForPuzzle(int puzzleNumber) {
         return minimums.getInteger(Integer.toString(puzzleNumber), 0);
     }

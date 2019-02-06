@@ -31,9 +31,6 @@ public class RestartButton extends Actor {
         this.setBounds(posX,posY,width,height);
         this.setPosition(posX,posY);
         sprite.setOriginCenter();
-
-
-
         defaultColor = sprite.getColor();
 
         this.addListener(new ClickListener() {
